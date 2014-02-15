@@ -13,49 +13,36 @@ class TvClient(
 ) {
   val endpointUrl = new URL("http://garagw.garapon.info/getgtvaddress")
 
-  def newSession(
-    user: String,
-    password: String,
-    md5Converted: Boolean = true
-  ): TvSession = {
-    val response =
-      httpClientFactory.create.post(
-        endpointUrl,
-        Some(RequestBody(Map(
-          "user" -> user,
-          "md5passwd" -> md5Password(password, md5Converted),
-          "dev_id" -> devId
-        )))
-      )
-    println(response.body)
-    new TvSession()
-  }
-
-  def newSessionViaLAN(
-    inetAddress: InetAddress,
-    user: String,
-    password: String,
-    md5Converted: Boolean = true
-  ): TvSession = {
-    val url = s"http://${inetAddress.getHostAddress}/gapi/v3/auth"
-    println(url)
+  def newSessionByIp(ip: String, user: String, md5Password: String): TvSession = {
+    val url = s"http://${ip}/gapi/v3/auth?${devId}"
     val response =
       httpClientFactory.create.post(
         new URL(url),
         Some(RequestBody(Map(
           "type" -> "login",
           "loginid" -> user,
-          "md5pswd" -> md5Password(password, md5Converted)
+          "md5pswd" -> md5Password
         )))
       )
     println(response.body)
     new TvSession()
   }
 
-  private def md5Password(password: String, md5Converted: Boolean) =
-    if (md5Converted) password else md5sum(password)
+  def newSession(user: String, md5Password: String): TvSession = {
+    val response =
+      httpClientFactory.create.post(
+        endpointUrl,
+        Some(RequestBody(Map(
+          "user" -> user,
+          "md5passwd" -> md5Password,
+          "dev_id" -> devId
+        )))
+      )
+    //TODO: parse result and login to the TV
+    new TvSession()
+  }
 
-  private def md5sum(text: String) = {
+  def md5sum(text: String) = {
     val bytes = MessageDigest.getInstance("MD5").digest(text.getBytes())
 	  val hexString = (new BigInteger(1, bytes)).toString(16)
     ("0" * (32 - hexString.size)) + hexString // pad "0" chars to left
