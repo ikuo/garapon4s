@@ -8,5 +8,9 @@ class Garapon4SSpec extends FunSpec {
       assert(1+1 == 2)
     }
   }
+  //TODO spec for TvClient, TvSession
+  /*
+    val json = """{"version":"GTV3.1401190","status":1,"login":1,"gtvsession":"a9cfaa236dda032a39a47a77a961dec9"}"""
+  */
 }
 

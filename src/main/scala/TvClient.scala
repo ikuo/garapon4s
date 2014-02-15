@@ -7,6 +7,8 @@ import java.math.BigInteger
 import uk.co.bigbeeconsultants.http.HttpClient
 import uk.co.bigbeeconsultants.http.request.RequestBody
 
+import com.fasterxml.jackson.databind.ObjectMapper
+
 class TvClient(
   devId: String,
   httpClientFactory: HttpClientFactory = TvClient.defaultHttpClientFactory
@@ -14,18 +16,22 @@ class TvClient(
   val endpointUrl = new URL("http://garagw.garapon.info/getgtvaddress")
 
   def newSessionByIp(ip: String, user: String, md5Password: String): TvSession = {
-    val url = s"http://${ip}/gapi/v3/auth?${devId}"
-    val response =
-      httpClientFactory.create.post(
-        new URL(url),
-        Some(RequestBody(Map(
-          "type" -> "login",
-          "loginid" -> user,
-          "md5pswd" -> md5Password
-        )))
-      )
-    println(response.body)
-    new TvSession()
+    val auth = {
+      val url = s"http://${ip}/gapi/v3/auth?${devId}"
+      val response =
+        httpClientFactory.create.post(
+          new URL(url),
+          Some(RequestBody(Map(
+            "type" -> "login",
+            "loginid" -> user,
+            "md5pswd" -> md5Password
+          )))
+        )
+      (new ObjectMapper).readValue(response.body.inputStream, classOf[Auth]).
+        validated
+    }
+
+    new TvSession(ip, auth.gtvsession, devId)
   }
 
   def newSession(user: String, md5Password: String): TvSession = {
@@ -39,7 +45,8 @@ class TvClient(
         )))
       )
     //TODO: parse result and login to the TV
-    new TvSession()
+    //new TvSession(ip, gtvsession, devId)
+    null
   }
 
   def md5sum(text: String) = {

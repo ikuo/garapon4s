@@ -10,6 +10,11 @@ initialCommands := "import com.github.ikuo.garapon4s._"
 
 seq(lsSettings :_*)
 
+//libraryDependencies += "com.fasterxml.jackson.module" % "jackson-module-scala" % "2.0.2"
+
+libraryDependencies += "com.fasterxml.jackson.core" % "jackson-core" % "2.3.0"
+
+
 // Bee Client {{{
 libraryDependencies ++= Seq(
     "uk.co.bigbeeconsultants" %% "bee-client" % "0.21.+",
@@ -18,6 +23,7 @@ libraryDependencies ++= Seq(
 
 resolvers += "Big Bee Consultants" at "http://repo.bigbeeconsultants.co.uk/repo"
 // }}}
+
 
 // ScalaTest
 resolvers ++= Seq(

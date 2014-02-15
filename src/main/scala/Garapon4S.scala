@@ -9,6 +9,7 @@ object Garapon4S {
         config.get("default.user").toString,
         config.get("default.md5password").toString
       )
+    println("gtvsession=" + session.gtvsession)
   }
 
   private lazy val config: java.util.Properties = {
