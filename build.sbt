@@ -14,6 +14,9 @@ seq(lsSettings :_*)
 
 libraryDependencies += "com.fasterxml.jackson.core" % "jackson-core" % "2.3.0"
 
+libraryDependencies += "com.fasterxml.jackson.core" % "jackson-databind" % "2.3.0"
+
+publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
 
 // Bee Client {{{
 libraryDependencies ++= Seq(
