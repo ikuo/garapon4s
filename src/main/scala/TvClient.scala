@@ -9,6 +9,8 @@ import uk.co.bigbeeconsultants.http.request.RequestBody
 
 import com.fasterxml.jackson.databind.ObjectMapper
 
+import com.github.ikuo.garapon4s.model.Auth
+
 class TvClient(
   devId: String,
   httpClientFactory: HttpClientFactory = TvClient.defaultHttpClientFactory

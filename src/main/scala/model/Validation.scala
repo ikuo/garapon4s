@@ -1,4 +1,4 @@
-package com.github.ikuo.garapon4s
+package com.github.ikuo.garapon4s.model
 
 trait Validation {
   protected def nonEmpty(name: String, value: String) {

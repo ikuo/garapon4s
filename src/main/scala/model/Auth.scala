@@ -1,4 +1,4 @@
-package com.github.ikuo.garapon4s
+package com.github.ikuo.garapon4s.model
 
 class Auth(
   var version: String,
