@@ -1,2 +1,4 @@
+*.iml
 target/
+/.idea
 /garapon4s.properties

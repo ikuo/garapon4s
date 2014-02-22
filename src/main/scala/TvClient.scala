@@ -13,7 +13,7 @@ import com.github.ikuo.garapon4s.model.Auth
 
 class TvClient(
   devId: String,
-  httpClientFactory: HttpClientFactory = TvClient.defaultHttpClientFactory
+  httpClientFactory: HttpClientFactory = HttpClientFactory({ new HttpClient })
 ) {
   val endpointUrl = new URL("http://garagw.garapon.info/getgtvaddress")
 
@@ -27,8 +27,10 @@ class TvClient(
             "type" -> "login",
             "loginid" -> user,
             "md5pswd" -> md5Password
-          )))
+          ))),
+          Nil
         )
+      println(response.body.contentType)
       (new ObjectMapper).readValue(response.body.inputStream, classOf[Auth]).
         validated
     }
@@ -56,11 +58,4 @@ class TvClient(
 	  val hexString = (new BigInteger(1, bytes)).toString(16)
     ("0" * (32 - hexString.size)) + hexString // pad "0" chars to left
   }
-}
-
-object TvClient {
-  lazy val defaultHttpClientFactory =
-    new HttpClientFactory {
-      override def create: HttpClient = { new HttpClient }
-    }
 }
