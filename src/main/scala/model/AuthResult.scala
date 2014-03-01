@@ -1,6 +1,6 @@
 package com.github.ikuo.garapon4s.model
 
-class Auth(
+class AuthResult(
   var version: String,
   var status: Int,
   var login: Int,
@@ -12,7 +12,7 @@ class Auth(
   def setLogin(a: Int) { this.login = a }
   def setGtvsession(a: String) { this.gtvsession = a }
 
-  def validated: Auth = {
+  def validated = {
     nonEmpty("version", version)
     nonEmpty("gtvsession", gtvsession)
     nonNegative("status", status)

@@ -5,4 +5,7 @@ class TvSession(
   val gtvsession: String,
   val devId: String
 ) {
+  def search() = {
+    null
+  }
 }

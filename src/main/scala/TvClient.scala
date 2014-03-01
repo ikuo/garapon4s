@@ -9,7 +9,7 @@ import uk.co.bigbeeconsultants.http.request.RequestBody
 
 import com.fasterxml.jackson.databind.ObjectMapper
 
-import com.github.ikuo.garapon4s.model.Auth
+import com.github.ikuo.garapon4s.model.AuthResult
 
 class TvClient(
   devId: String,
@@ -31,7 +31,7 @@ class TvClient(
           Nil
         )
       println(response.body.contentType)
-      (new ObjectMapper).readValue(response.body.inputStream, classOf[Auth]).
+      (new ObjectMapper).readValue(response.body.inputStream, classOf[AuthResult]).
         validated
     }
 
