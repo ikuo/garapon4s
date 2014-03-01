@@ -13,7 +13,7 @@ class TvClientSpec extends UnitSpec {
       val httpClient = mock[HttpClient]
 
       (httpClient.post(_: URL, _: Option[RequestBody], _: Headers)).
-        expects(new URL("http://192.168.0.1/gapi/v3/auth?dev_id1"), *, *).
+        expects(new URL("http://192.168.0.1/gapi/v3/auth?dev_id=dev_id1"), *, *).
         returning(
           MockResponse.ofJson(
             """{"version":"GTV3.1401190","status":1,"login":1,"gtvsession":"a9cfaa236dda032a39a47a77a961dec9"}"""

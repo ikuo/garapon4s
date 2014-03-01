@@ -1,6 +1,6 @@
 package com.github.ikuo.garapon4s
 
-import java.net.{URL, InetAddress}
+import java.net.URL
 import java.security.MessageDigest
 import java.math.BigInteger
 
@@ -11,6 +11,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 
 import com.github.ikuo.garapon4s.model.AuthResult
 
+/**
+ * A client of TV device.
+ */
 class TvClient(
   devId: String,
   httpClientFactory: HttpClientFactory = HttpClientFactory({ new HttpClient })
@@ -19,23 +22,19 @@ class TvClient(
 
   def newSessionByIp(ip: String, user: String, md5Password: String): TvSession = {
     val auth = {
-      val url = s"http://${ip}/gapi/v3/auth?${devId}"
+      val url = s"http://${ip}/gapi/v3/auth?dev_id=${devId}"
+      val body = Some(RequestBody(Map(
+        "type" -> "login",
+        "loginid" -> user,
+        "md5pswd" -> md5Password
+      )))
       val response =
-        httpClientFactory.create.post(
-          new URL(url),
-          Some(RequestBody(Map(
-            "type" -> "login",
-            "loginid" -> user,
-            "md5pswd" -> md5Password
-          ))),
-          Nil
-        )
-      println(response.body.contentType)
+        httpClientFactory.create.post(new URL(url), body, Nil)
       (new ObjectMapper).readValue(response.body.inputStream, classOf[AuthResult]).
         validated
     }
 
-    new TvSession(ip, auth.gtvsession, devId)
+    new TvSession(ip, auth.gtvsession, devId, httpClientFactory)
   }
 
   def newSession(user: String, md5Password: String): TvSession = {
