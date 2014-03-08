@@ -4,6 +4,8 @@ import java.util.Date
 import java.net.URL
 import uk.co.bigbeeconsultants.http.HttpClient
 import uk.co.bigbeeconsultants.http.request.RequestBody
+import uk.co.bigbeeconsultants.http.header.MediaType
+import model.SearchResult
 import TvSession._
 
 //** TV session */
@@ -47,15 +49,17 @@ class TvSession(
     rank: Option[String] = None,
     sort: Option[SortOrder] = None,
     video: Option[String] = None
-  ) = {
+  ): SearchResult = {
     val url = s"http://${ip}/gapi/v3/search?dev_id=${devId}&gtvsession=${gtvsession}"
-    val body = Some(RequestBody(Map("key" -> key.get)))
+    val body =
+      Some(RequestBody(Map("key" -> key.get),
+        MediaType.APPLICATION_OCTET_STREAM))
     val response =
       httpClientFactory.create.post(
         new URL(url),
-        body
+        body, Nil
       )
-    println(response.body)
+    //TODO: build SearchResult
     null
   }
 }

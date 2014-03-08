@@ -19,7 +19,7 @@ class TvClientSpec extends UnitSpec {
             """{"version":"GTV3.1401190","status":1,"login":1,"gtvsession":"a9cfaa236dda032a39a47a77a961dec9"}"""
           ))
 
-      val tvClient = new TvClient("dev_id1", HttpClientFactory({ httpClient }))
+      val tvClient = new TvClient("dev_id1", HttpClientFactory { httpClient })
       val session = tvClient.newSessionByIp("192.168.0.1", "user1", "md5pw1")
 
       session shouldBe a [TvSession]

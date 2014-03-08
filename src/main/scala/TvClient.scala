@@ -4,7 +4,7 @@ import java.net.URL
 import java.security.MessageDigest
 import java.math.BigInteger
 
-import uk.co.bigbeeconsultants.http.HttpClient
+import uk.co.bigbeeconsultants.http.{HttpClient, Config}
 import uk.co.bigbeeconsultants.http.request.RequestBody
 
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -16,7 +16,10 @@ import com.github.ikuo.garapon4s.model.AuthResult
  */
 class TvClient(
   devId: String,
-  httpClientFactory: HttpClientFactory = HttpClientFactory({ new HttpClient })
+  httpClientFactory: HttpClientFactory =
+    HttpClientFactory({
+      new HttpClient(Config(connectTimeout = 5000, readTimeout = 15000))
+    })
 ) {
   val endpointUrl = new URL("http://garagw.garapon.info/getgtvaddress")
 
