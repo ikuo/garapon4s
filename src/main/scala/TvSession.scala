@@ -5,7 +5,7 @@ import java.net.URL
 import uk.co.bigbeeconsultants.http.HttpClient
 import uk.co.bigbeeconsultants.http.request.RequestBody
 import uk.co.bigbeeconsultants.http.header.MediaType
-import model.SearchResult
+import model._
 import TvSession._
 
 //** TV session */
@@ -32,6 +32,7 @@ class TvSession(
    * @param edate the end date time
    * @param rank Some("all") when searching favorites
    * @param sort the sorting order
+   * @param resultListener observer to get sub-results as soon as possible in JSON parsing
    */
   def search(
     n: Int = NA,
@@ -48,7 +49,8 @@ class TvSession(
     edate: Date = null,
     rank: String = null,
     sort: SortOrder = null,
-    video: String = null
+    video: String = null,
+    resultListener: SearchResultListener = null
   ): SearchResult = {
     val url = s"http://${ip}/gapi/v3/search?dev_id=${devId}&gtvsession=${gtvsession}"
     val body =
@@ -60,7 +62,7 @@ class TvSession(
         body, Nil
       )
 
-    SearchResult(response.body.inputStream)
+    SearchResult.parse(response.body.inputStream, resultListener)
   }
 }
 
