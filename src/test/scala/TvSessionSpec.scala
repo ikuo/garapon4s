@@ -28,7 +28,7 @@ class TvSessionSpec extends UnitSpec {
             returning(
               MockResponse.ofJson(jsonFixure("search_result/1")))
 
-          val result = session.search(key = Some("ニュース"))
+          val result = session.search(key = "ニュース")
           result should not be (null)
           result shouldBe a [SearchResult]
         }

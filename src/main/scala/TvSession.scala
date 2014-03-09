@@ -34,25 +34,25 @@ class TvSession(
    * @param sort the sorting order
    */
   def search(
-    n: Option[Int] = None,
-    p: Option[Int] = None,
-    s: Option[SearchTarget] = None,
-    key: Option[String] = None,
-    gtvid: Option[String] = None,
-    gtvidlist: Option[String] = None,
-    genre0: Option[Int] = None,
-    genre1: Option[Int] = None,
-    ch: Option[Int] = None,
-    dt: Option[DateMode] = None,
-    sdate: Option[Date] = None,
-    edate: Option[Date] = None,
-    rank: Option[String] = None,
-    sort: Option[SortOrder] = None,
-    video: Option[String] = None
+    n: Int = NA,
+    p: Int = NA,
+    s: SearchTarget = null,
+    key: String = null,
+    gtvid: String = null,
+    gtvidlist: String = null,
+    genre0: Int = NA,
+    genre1: Int = NA,
+    ch: Int = NA,
+    dt: DateMode = null,
+    sdate: Date = null,
+    edate: Date = null,
+    rank: String = null,
+    sort: SortOrder = null,
+    video: String = null
   ): SearchResult = {
     val url = s"http://${ip}/gapi/v3/search?dev_id=${devId}&gtvsession=${gtvsession}"
     val body =
-      Some(RequestBody(Map("key" -> key.get),
+      Some(RequestBody(Map("key" -> key), //TODO handle null key
         MediaType.APPLICATION_OCTET_STREAM))
     val response =
       httpClientFactory.create.post(
@@ -65,6 +65,8 @@ class TvSession(
 }
 
 object TvSession {
+  val NA = -1
+
   /** Enumeration of search target parameter */
   sealed abstract class SearchTarget(val code: Char)
   case object EPG extends SearchTarget('e')
