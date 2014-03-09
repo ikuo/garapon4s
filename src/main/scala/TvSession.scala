@@ -59,8 +59,8 @@ class TvSession(
         new URL(url),
         body, Nil
       )
-    //TODO: build SearchResult
-    null
+
+    SearchResult(response.body.inputStream)
   }
 }
 

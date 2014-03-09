@@ -21,7 +21,7 @@ class TvSessionSpec extends UnitSpec {
 
   describe("#search") {
     describe("with key") {
-      it("should return a SearchResult") (pending, {
+      it("should return a SearchResult") {
         new Fixture {
           (httpClient.post(_: URL, _: Option[RequestBody], _: Headers)).
             expects(new URL("http://192.168.0.2/gapi/v3/search?dev_id=devid1&gtvsession=session1"), *, *).
@@ -32,7 +32,7 @@ class TvSessionSpec extends UnitSpec {
           result should not be (null)
           result shouldBe a [SearchResult]
         }
-      })
+      }
     }
   }
 }
