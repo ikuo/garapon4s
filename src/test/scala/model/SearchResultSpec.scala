@@ -7,13 +7,18 @@ class SearchResultSpec extends UnitSpec {
     describe("without listener") {
       it("should return a SearchResult with programs") {
         new JsonFixture {
-          val result = SearchResult.parse(jsonFixtureAsInputStream("search_result/0"))
+          val result = SearchResult.parse(jsonFixtureAsInputStream("search_result/1"))
           result should not be (null)
           result shouldBe a [SearchResult]
           result.status should be (1)
           result.hit should be (9849)
           result.version should be ("GTV3.1401190")
-          result.programs.head.gtvId should be ("1SJP7E871394280000")
+
+          val program = result.programs.head
+          program.gtvId should be ("1SJP7E871394280000")
+          program.ch should be (32391)
+          program.description should be ("飛行のススメ")
+          program.genre should equal (Array("5/2", "8/7", "9/2"))
         }
       }
     }
@@ -33,7 +38,7 @@ class SearchResultSpec extends UnitSpec {
               }
             }
 
-            SearchResult.parse(jsonFixtureAsInputStream("search_result/0"), listener)
+            SearchResult.parse(jsonFixtureAsInputStream("search_result/1"), listener)
 
             iterator should not be (null)
           }
@@ -50,9 +55,7 @@ class SearchResultSpec extends UnitSpec {
                 }
               }
 
-              SearchResult.parse(jsonFixtureAsInputStream("search_result/0"), listener)
-
-              iterator should not be (null)
+              SearchResult.parse(jsonFixtureAsInputStream("search_result/1"), listener)
             }
           }
         }
