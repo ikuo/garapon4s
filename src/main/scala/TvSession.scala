@@ -5,7 +5,7 @@ import java.net.URL
 import uk.co.bigbeeconsultants.http.HttpClient
 import uk.co.bigbeeconsultants.http.request.RequestBody
 import uk.co.bigbeeconsultants.http.header.MediaType
-import model.SearchResult
+import model._
 import TvSession._
 
 //** TV session */
@@ -32,39 +32,43 @@ class TvSession(
    * @param edate the end date time
    * @param rank Some("all") when searching favorites
    * @param sort the sorting order
+   * @param resultListener observer to get sub-results as soon as possible in JSON parsing
    */
   def search(
-    n: Option[Int] = None,
-    p: Option[Int] = None,
-    s: Option[SearchTarget] = None,
-    key: Option[String] = None,
-    gtvid: Option[String] = None,
-    gtvidlist: Option[String] = None,
-    genre0: Option[Int] = None,
-    genre1: Option[Int] = None,
-    ch: Option[Int] = None,
-    dt: Option[DateMode] = None,
-    sdate: Option[Date] = None,
-    edate: Option[Date] = None,
-    rank: Option[String] = None,
-    sort: Option[SortOrder] = None,
-    video: Option[String] = None
+    n: Int = NA,
+    p: Int = NA,
+    s: SearchTarget = null,
+    key: String = null,
+    gtvid: String = null,
+    gtvidlist: String = null,
+    genre0: Int = NA,
+    genre1: Int = NA,
+    ch: Int = NA,
+    dt: DateMode = null,
+    sdate: Date = null,
+    edate: Date = null,
+    rank: String = null,
+    sort: SortOrder = null,
+    video: String = null,
+    resultListener: SearchResultListener = null
   ): SearchResult = {
     val url = s"http://${ip}/gapi/v3/search?dev_id=${devId}&gtvsession=${gtvsession}"
     val body =
-      Some(RequestBody(Map("key" -> key.get),
+      Some(RequestBody(Map("key" -> key), //TODO handle null key
         MediaType.APPLICATION_OCTET_STREAM))
     val response =
       httpClientFactory.create.post(
         new URL(url),
         body, Nil
       )
-    //TODO: build SearchResult
-    null
+
+    SearchResult.parse(response.body.inputStream, resultListener)
   }
 }
 
 object TvSession {
+  val NA = -1
+
   /** Enumeration of search target parameter */
   sealed abstract class SearchTarget(val code: Char)
   case object EPG extends SearchTarget('e')
