@@ -24,7 +24,7 @@ object SearchResult {
     in: InputStream,
     resultListener: SearchResultListener = null
   ): SearchResult = {
-    val parser = jsonFactory.createParser(in)
+    val parser = jsonFactory.createJsonParser(in)
     val listener = Option(resultListener).getOrElse(new BufferedListener)
 
     acceptToken(START_OBJECT, parser)
