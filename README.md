@@ -27,7 +27,6 @@ Copy garapon4s.properties.sample to garapon4s.properties, and edit entries to ma
 ```
 $ sbt
 > run
-application/json;charset=utf-8
 gtvsession=e8dafbf3763d83f23364xxxxxxxxxxxx
 ```
 
@@ -36,6 +35,5 @@ It will show a gtvsession ID received from your Garapon TV device.
 See also `src/main/scala/Garapon4S.scala`.
 
 ## TODO
-- Support Web Auth API
 - Support Favorite, Channel, Play, and Thumbs API
 - Handle errors in response
