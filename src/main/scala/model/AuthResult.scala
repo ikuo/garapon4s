@@ -1,5 +1,6 @@
 package com.github.ikuo.garapon4s.model
 
+/** Result of /login API. */
 class AuthResult(
   var version: String,
   var status: Int,

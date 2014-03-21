@@ -3,13 +3,11 @@ package com.github.ikuo.garapon4s
 import java.net.URL
 import java.security.MessageDigest
 import java.math.BigInteger
-
 import uk.co.bigbeeconsultants.http.{HttpClient, Config}
 import uk.co.bigbeeconsultants.http.request.RequestBody
-
 import com.fasterxml.jackson.databind.ObjectMapper
-
 import com.github.ikuo.garapon4s.model.AuthResult
+import model.WebAuthResult
 
 /**
  * A client of TV device.
@@ -40,7 +38,12 @@ class TvClient(
     new TvSession(ip, auth.gtvsession, devId, httpClientFactory)
   }
 
-  def newSession(user: String, md5Password: String): TvSession = {
+  def newSession(
+    user: String,
+    md5Password: String,
+    preferPrivateAddress: Boolean = true,
+    timeoutMs: Int = 2000
+  ): TvSession = {
     val response =
       httpClientFactory.create.post(
         endpointUrl,
@@ -50,9 +53,20 @@ class TvClient(
           "dev_id" -> devId
         )))
       )
-    //TODO: parse result and login to the TV
-    //new TvSession(ip, gtvsession, devId)
-    null
+
+    val result = WebAuthResult.parse(response.body.toString)
+
+    val candidates =
+      if (preferPrivateAddress)
+        List(result.privateIpAddress, result.globalIpAddress)
+      else
+        List(result.globalIpAddress, result.privateIpAddress)
+
+    val ip = candidates.find(
+      java.net.InetAddress.getByName(_).isReachable(timeoutMs)
+      ).get.toString //TODO handle None
+
+    newSessionByIp(ip, user, md5Password)
   }
 
   def md5sum(text: String) = {
