@@ -3,6 +3,7 @@ package com.github.ikuo.garapon4s
 import java.net.URL
 import java.security.MessageDigest
 import java.math.BigInteger
+import java.net.InetAddress
 import uk.co.bigbeeconsultants.http.{HttpClient, Config}
 import uk.co.bigbeeconsultants.http.request.RequestBody
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -41,7 +42,6 @@ class TvClient(
   def newSession(
     user: String,
     md5Password: String,
-    preferPrivateAddress: Boolean = true,
     timeoutMs: Int = 2000
   ): TvSession = {
     val response =
@@ -57,16 +57,12 @@ class TvClient(
     val result = WebAuthResult.parse(response.body.toString)
 
     val candidates =
-      if (preferPrivateAddress)
-        List(result.privateIpAddress, result.globalIpAddress)
-      else
-        List(result.globalIpAddress, result.privateIpAddress)
+      List(result.ipAddress, result.privateIpAddress, result.globalIpAddress)
 
-    val ip = candidates.find(
-      java.net.InetAddress.getByName(_).isReachable(timeoutMs)
-      ).get.toString //TODO handle None
+    val ip = candidates.find(InetAddress.getByName(_).isReachable(timeoutMs))
+    if (ip.isEmpty) throw new UnreachableIp(candidates)
 
-    newSessionByIp(ip, user, md5Password)
+    newSessionByIp(ip.get.toString, user, md5Password)
   }
 
   def md5sum(text: String) = {
