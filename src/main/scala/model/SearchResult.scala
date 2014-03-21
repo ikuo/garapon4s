@@ -3,7 +3,7 @@ package com.github.ikuo.garapon4s.model
 import java.io.InputStream
 import com.fasterxml.jackson.core.{JsonFactory, JsonParser, JsonToken}
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.ikuo.garapon4s.MalformedResponse
+import com.github.ikuo.garapon4s.MalformedJsonResponse
 
 class SearchResult(
   val status: Int,
@@ -24,7 +24,7 @@ object SearchResult {
     in: InputStream,
     resultListener: SearchResultListener = null
   ): SearchResult = {
-    val parser = jsonFactory.createParser(in)
+    val parser = jsonFactory.createJsonParser(in)
     val listener = Option(resultListener).getOrElse(new BufferedListener)
 
     acceptToken(START_OBJECT, parser)
@@ -70,10 +70,10 @@ object SearchResult {
   }
 
   protected def unexpected(token: JsonToken, parser: JsonParser) =
-    throw new MalformedResponse(s"Unexpected token ${token}", parser)
+    throw new MalformedJsonResponse(s"Unexpected token ${token}", parser)
 
   protected def unexpectedField(name: String, parser: JsonParser) =
-    throw new MalformedResponse(s"Unexpected field name ${name}", parser)
+    throw new MalformedJsonResponse(s"Unexpected field name ${name}", parser)
 
   class BufferedListener extends SearchResultListener {
     protected var status: Int = NA
@@ -98,6 +98,6 @@ object SearchResult {
 
   protected def acceptToken(token: JsonToken, parser: JsonParser) {
     if (parser.isClosed || parser.nextToken != token)
-      throw new MalformedResponse(token, parser)
+      throw new MalformedJsonResponse(token, parser)
   }
 }

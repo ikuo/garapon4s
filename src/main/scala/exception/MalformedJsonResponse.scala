@@ -2,7 +2,7 @@ package com.github.ikuo.garapon4s
 
 import com.fasterxml.jackson.core.{JsonLocation, JsonToken, JsonParser}
 
-class MalformedResponse(
+class MalformedJsonResponse(
   val message: String,
   val parser: JsonParser,
   val cause: Throwable = null

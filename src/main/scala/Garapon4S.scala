@@ -4,16 +4,25 @@ object Garapon4S {
   def main(args: Array[String]) {
     val client = new TvClient(config.get("dev_id").toString)
     val session =
-      client.newSessionByIp(
-        config.get("default.ip").toString,
-        config.get("default.user").toString,
-        config.get("default.md5password").toString
-      )
+      if (ip == null) {
+        client.newSession(
+          config.get("default.user").toString,
+          config.get("default.md5password").toString
+        )
+      } else {
+        client.newSessionByIp(ip,
+          config.get("default.user").toString,
+          config.get("default.md5password").toString
+        )
+      }
+
     println("gtvsession=" + session.gtvsession)
-    val results = session.search(key = "ニュース", p = 2,
-      edate = new java.util.Date())
+
+    val results = session.search(key = "ニュース")
     println("hits=" + results.hit)
   }
+
+  private lazy val ip = config.get("default.ip").toString
 
   private lazy val config: java.util.Properties = {
     val props = new java.util.Properties()
