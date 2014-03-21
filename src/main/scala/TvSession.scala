@@ -2,6 +2,7 @@ package com.github.ikuo.garapon4s
 
 import java.util.Date
 import java.net.URL
+import java.text.SimpleDateFormat
 import uk.co.bigbeeconsultants.http.HttpClient
 import uk.co.bigbeeconsultants.http.request.RequestBody
 import uk.co.bigbeeconsultants.http.header.MediaType
@@ -15,6 +16,8 @@ class TvSession(
   val devId: String,
   val httpClientFactory: HttpClientFactory = HttpClientFactory({ new HttpClient })
 ) {
+  private lazy val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
   /**
    * Returns search result from the TV device.
    *
@@ -53,17 +56,32 @@ class TvSession(
     resultListener: SearchResultListener = null
   ): SearchResult = {
     val url = s"http://${ip}/gapi/v3/search?dev_id=${devId}&gtvsession=${gtvsession}"
-    val body =
-      Some(RequestBody(Map("key" -> key), //TODO handle null key
-        MediaType.APPLICATION_OCTET_STREAM))
-    val response =
-      httpClientFactory.create.post(
-        new URL(url),
-        body, Nil
-      )
+
+    val map = new StringMap()
+    map("n") = n
+    map("p") = p
+    map("s") = Option(s).map(_.code.toString)
+    map("key") = key
+    map("gtvid") = gtvid
+    map("gtvidList") = gtvidlist
+    map("genre0") = genre0
+    map("genre1") = genre1
+    map("ch") = ch
+    map("dt") = Option(dt).map(_.code.toString)
+    map("sdate") = Option(sdate).map(formatDate(_))
+    map("edate") = Option(edate).map(formatDate(_))
+    map("rank") = rank
+    map("sort") = Option(sort).map(_.code)
+    map("video") = video
+
+    val body = Some(RequestBody(map.toMap, MediaType.APPLICATION_OCTET_STREAM))
+    val response = httpClientFactory.create.post(new URL(url), body, Nil)
 
     SearchResult.parse(response.body.inputStream, resultListener)
   }
+
+  private def formatDate(date: Date) =
+    dateFormat.synchronized { dateFormat.format(date) }
 }
 
 object TvSession {

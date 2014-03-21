@@ -10,7 +10,9 @@ object Garapon4S {
         config.get("default.md5password").toString
       )
     println("gtvsession=" + session.gtvsession)
-    session.search(key = "ニュース")
+    val results = session.search(key = "ニュース", p = 2,
+      edate = new java.util.Date())
+    println("hits=" + results.hit)
   }
 
   private lazy val config: java.util.Properties = {

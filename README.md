@@ -36,7 +36,6 @@ It will show a gtvsession ID received from your Garapon TV device.
 See also `src/main/scala/Garapon4S.scala`.
 
 ## TODO
-- Support search parameters other than `key`
 - Support Web Auth API
 - Support Favorite, Channel, Play, and Thumbs API
 - Handle errors in response
