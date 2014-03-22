@@ -17,9 +17,9 @@ object Garapon4S {
       }
 
     println("gtvsession=" + session.gtvsession)
-
     val results = session.search(key = "ニュース")
-    println("hits=" + results.hit)
+    println("search hit=" + results.hit)
+    session.logout
   }
 
   private lazy val ip = config.get("default.ip")

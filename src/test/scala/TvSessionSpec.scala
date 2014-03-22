@@ -13,7 +13,7 @@ class TvSessionSpec extends UnitSpec {
     val devId = "devid1"
     lazy val httpClient = mock[HttpClient]
     lazy val session =
-      new TvSession(ip, gtvsession, devId, HttpClientFactory { httpClient })
+      new TvSession(ip, 80, 1935, gtvsession, devId, HttpClientFactory { httpClient })
   }
 
   describe("#search") {

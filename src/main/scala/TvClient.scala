@@ -22,9 +22,15 @@ class TvClient(
 ) {
   val endpointUrl = new URL("http://garagw.garapon.info/getgtvaddress")
 
-  def newSessionByIp(ip: String, user: String, md5Password: String): TvSession = {
+  def newSessionByIp(
+    ip: String,
+    user: String,
+    md5Password: String,
+    portHttp: Int = 80,
+    portTs: Int = 1935
+  ): TvSession = {
     val auth = {
-      val url = s"http://${ip}/gapi/v3/auth?dev_id=${devId}"
+      val url = s"http://${ip}:${portHttp}/gapi/v3/auth?dev_id=${devId}"
       val body = Some(RequestBody(Map(
         "type" -> "login",
         "loginid" -> user,
@@ -33,10 +39,10 @@ class TvClient(
       val response =
         httpClientFactory.create.post(new URL(url), body, Nil)
       (new ObjectMapper).readValue(response.body.inputStream, classOf[AuthResult]).
-        validated
+        validated()
     }
 
-    new TvSession(ip, auth.gtvsession, devId, httpClientFactory)
+    new TvSession(ip, portHttp, portTs, auth.gtvsession, devId, httpClientFactory)
   }
 
   def newSession(
@@ -62,7 +68,7 @@ class TvClient(
     val ip = candidates.find(InetAddress.getByName(_).isReachable(timeoutMs))
     if (ip.isEmpty) throw new UnreachableIp(candidates)
 
-    newSessionByIp(ip.get.toString, user, md5Password)
+    newSessionByIp(ip.get.toString, user, md5Password, result.portHttp, result.portTs)
   }
 
   def md5sum(text: String) = {

@@ -6,12 +6,15 @@ import java.text.SimpleDateFormat
 import uk.co.bigbeeconsultants.http.HttpClient
 import uk.co.bigbeeconsultants.http.request.RequestBody
 import uk.co.bigbeeconsultants.http.header.MediaType
+import com.fasterxml.jackson.databind.ObjectMapper
 import model._
 import TvSession._
 
 //** TV session */
 class TvSession(
   val ip: String,
+  val portHttp: Int,
+  val portTs: Int,
   val gtvsession: String,
   val devId: String,
   val httpClientFactory: HttpClientFactory = HttpClientFactory({ new HttpClient })
@@ -78,6 +81,14 @@ class TvSession(
     val response = httpClientFactory.create.post(new URL(url), body, Nil)
 
     SearchResult.parse(response.body.inputStream, resultListener)
+  }
+
+  def logout {
+    val url = s"http://${ip}:${portHttp}/gapi/v3/auth?dev_id=${devId}&gtvsession=${gtvsession}"
+    val body = Some(RequestBody(Map("type" -> "logout")))
+    val response = httpClientFactory.create.post(new URL(url), body, Nil)
+    (new ObjectMapper).readValue(response.body.inputStream, classOf[AuthResult]).
+      validated(loginResult = false)
   }
 
   private def formatDate(date: Date) =
