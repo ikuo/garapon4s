@@ -2,7 +2,8 @@ package com.github.ikuo.garapon4s.model
 
 import java.util.HashMap
 import collection.JavaConversions._
-import com.github.ikuo.garapon4s.{MalformedJsonResponse}
+import com.github.ikuo.garapon4s.{
+  MalformedJsonResponse, InvalidSession, MalformedResponse, DbConnectionError}
 
 class ChannelResult(
   var status: Int,
@@ -18,5 +19,15 @@ class ChannelResult(
       map(entry.getKey.toInt) = entry.getValue
     }
     this.channels = map.toMap
+  }
+
+  def validate = {
+    status match {
+      case 1 => ()
+      case 0 => throw new InvalidSession()
+      case 200 => throw new DbConnectionError()
+      case _ => throw new MalformedResponse(s"status = ${status}")
+    }
+    this
   }
 }

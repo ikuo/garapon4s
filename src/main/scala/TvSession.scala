@@ -91,7 +91,7 @@ class TvSession(
     val body = Some(RequestBody(Map("type" -> "logout")))
     val response = httpClientFactory.create.post(new URL(url), body, Nil)
     objectMapper.readValue(response.body.inputStream, classOf[AuthResult]).
-      validated(loginResult = false)
+      validate(loginResult = false)
   }
 
   def addFavorite(gtvid: String, rank: Int) {

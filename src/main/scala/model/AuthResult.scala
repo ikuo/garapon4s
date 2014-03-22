@@ -19,7 +19,7 @@ class AuthResult(
   def setLogout(a: Int) { this.logout = a }
   def setGtvsession(a: String) { this.gtvsession = a }
 
-  def validated(loginResult: Boolean = true) = {
+  def validate(loginResult: Boolean = true) = {
     status match {
       case 1 => ()
       case 100 => throw new ParameterError()

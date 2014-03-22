@@ -21,6 +21,7 @@ class TvClient(
     })
 ) {
   val endpointUrl = new URL("http://garagw.garapon.info/getgtvaddress")
+  private lazy val objectMapper = new ObjectMapper
 
   def newSessionByIp(
     ip: String,
@@ -38,8 +39,8 @@ class TvClient(
       )))
       val response =
         httpClientFactory.create.post(new URL(url), body, Nil)
-      (new ObjectMapper).readValue(response.body.inputStream, classOf[AuthResult]).
-        validated()
+      objectMapper.readValue(response.body.inputStream, classOf[AuthResult]).
+        validate()
     }
 
     new TvSession(ip, portHttp, portTs, auth.gtvsession, devId, httpClientFactory)
