@@ -35,5 +35,4 @@ It will show a gtvsession ID received from your Garapon TV device.
 See also `src/main/scala/Garapon4S.scala`.
 
 ## TODO
-- Support Favorite, Channel, Play, and Thumbs API
-- Handle errors in response
+- Support Channel, Play, and Thumbs API
