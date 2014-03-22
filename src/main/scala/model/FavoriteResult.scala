@@ -7,6 +7,7 @@ class FavoriteResult(
   var status: Int,
   var version: String
 ) {
+  def this() = this(NA, null)
   def setStatus(v: Int) { this.status = v }
   def setVersion(v: String) { this.version = v }
 
@@ -23,6 +24,7 @@ class FavoriteResult(
 }
 
 object FavoriteResult {
+  val NA = -1
   class NoMp4Error extends RuntimeException
   class DbConnectionError extends RuntimeException
 }

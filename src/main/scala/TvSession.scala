@@ -95,7 +95,8 @@ class TvSession(
 
   def addFavorite(gtvid: String, rank: Int) {
     val url = s"${baseUrl}favorite${queryPrefix}"
-    val response = httpClientFactory.create.get(new URL(url))
+    val body = Some(RequestBody(Map("gtvid" -> gtvid, "rank" -> rank.toString)))
+    val response = httpClientFactory.create.post(new URL(url), body, Nil)
     (new ObjectMapper).readValue(response.body.inputStream, classOf[FavoriteResult]).
       validate
   }

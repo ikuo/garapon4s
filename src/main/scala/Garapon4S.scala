@@ -19,8 +19,7 @@ object Garapon4S {
     println("gtvsession=" + session.gtvsession)
     val results = session.search(key = "ニュース")
     println("search hit=" + results.hit)
-    println(results.programs(0).gtvId)
-    println(results.programs(0).title)
+
     session.logout
   }
 
