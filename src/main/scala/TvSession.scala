@@ -20,6 +20,8 @@ class TvSession(
   val httpClientFactory: HttpClientFactory = HttpClientFactory({ new HttpClient })
 ) {
   private lazy val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+  val baseUrl = s"http://${ip}:${portHttp}/gapi/v3/"
+  val queryPrefix = s"?dev_id=${devId}&gtvsession=${gtvsession}"
 
   /**
    * Returns search result from the TV device.
@@ -58,7 +60,7 @@ class TvSession(
     video: String = null,
     resultListener: SearchResultListener = null
   ): SearchResult = {
-    val url = s"http://${ip}/gapi/v3/search?dev_id=${devId}&gtvsession=${gtvsession}"
+    val url = s"${baseUrl}search${queryPrefix}"
 
     val map = new StringMap()
     map("n") = n
@@ -84,12 +86,22 @@ class TvSession(
   }
 
   def logout {
-    val url = s"http://${ip}:${portHttp}/gapi/v3/auth?dev_id=${devId}&gtvsession=${gtvsession}"
+    val url = s"${baseUrl}auth${queryPrefix}"
     val body = Some(RequestBody(Map("type" -> "logout")))
     val response = httpClientFactory.create.post(new URL(url), body, Nil)
     (new ObjectMapper).readValue(response.body.inputStream, classOf[AuthResult]).
       validated(loginResult = false)
   }
+
+  def addFavorite(gtvid: String, rank: Int) {
+    val url = s"${baseUrl}favorite${queryPrefix}"
+    val body = Some(RequestBody(Map("gtvid" -> gtvid, "rank" -> rank.toString)))
+    val response = httpClientFactory.create.post(new URL(url), body, Nil)
+    (new ObjectMapper).readValue(response.body.inputStream, classOf[FavoriteResult]).
+      validate
+  }
+
+  def removeFavorite(gtvid: String) = addFavorite(gtvid, 0)
 
   private def formatDate(date: Date) =
     dateFormat.synchronized { dateFormat.format(date) }

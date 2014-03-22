@@ -21,7 +21,7 @@ class TvSessionSpec extends UnitSpec {
       it("should return a SearchResult") {
         new Fixture {
           (httpClient.post(_: URL, _: Option[RequestBody], _: Headers)).
-            expects(new URL("http://192.168.0.2/gapi/v3/search?dev_id=devid1&gtvsession=session1"), *, *).
+            expects(new URL("http://192.168.0.2:80/gapi/v3/search?dev_id=devid1&gtvsession=session1"), *, *).
             returning(
               MockResponse.ofJson(jsonFixture("search_result/0")))//TODO 1
 
@@ -29,6 +29,19 @@ class TvSessionSpec extends UnitSpec {
           result should not be (null)
           result shouldBe a [SearchResult]
         }
+      }
+    }
+  }
+
+  describe("#addFavorite") {
+    it("should call favorite API") {
+      new Fixture {
+        (httpClient.post(_: URL, _: Option[RequestBody], _: Headers)).
+          expects(new URL("http://192.168.0.2:80/gapi/v3/favorite?dev_id=devid1&gtvsession=session1"), *, *).
+          returning(
+            MockResponse.ofJson("{\"status\":1,\"version\":\"GTV3.1\"}"))
+
+        session.addFavorite("tvid1", 1)
       }
     }
   }
