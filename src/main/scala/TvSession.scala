@@ -19,10 +19,22 @@ class TvSession(
   val devId: String,
   val httpClientFactory: HttpClientFactory = HttpClientFactory({ new HttpClient })
 ) {
-  private lazy val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-  private lazy val objectMapper = new ObjectMapper
   val baseUrl = s"http://${ip}:${portHttp}/gapi/v3/"
   val queryPrefix = s"?dev_id=${devId}&gtvsession=${gtvsession}"
+
+  private lazy val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+  private lazy val objectMapper = new ObjectMapper
+  private lazy val isPrivateIp = {
+    ip.split('.') match {
+      case Array("192", "168", _, _) => true  // class C
+      case Array("10", _, _, _) => true       // class A
+      case Array("172", a, _, _) => {         // class B
+        val i = a.toInt
+        (i >= 16 && i <= 31)
+      }
+      case _ => false
+    }
+  }
 
   /**
    * Returns search result from the TV device.
@@ -109,6 +121,24 @@ class TvSession(
     val response = httpClientFactory.create.get(new URL(url), Nil)
     objectMapper.readValue(response.body.inputStream, classOf[ChannelResult]).
       channels
+  }
+
+  def rtmpUrl(gtvid: String) = {
+    val path = s"/${gtvid}-${gtvsession}"
+    if (isPrivateIp) s"rtmp://${ip}${path}"
+    else s"rtmp://${ip}:${portTs}${path}"
+  }
+
+  def streamingUrl(gtvid: String) = {
+    val path = s"/cgi-bin/play/m3u8.cgi?${gtvid}-${gtvsession}"
+    if (isPrivateIp) s"http://${ip}${path}"
+    else s"http://${ip}:${portTs}${path}"
+  }
+
+  def thumbnailUrl(gtvid: String) = {
+    val path = s"/thumbs/${gtvid}"
+    if (isPrivateIp) s"http://${ip}${path}"
+    else s"http://${ip}:${portTs}${path}"
   }
 
   private def formatDate(date: Date) =
