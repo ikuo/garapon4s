@@ -2,6 +2,8 @@ package com.github.ikuo.garapon4s.model
 
 import collection.mutable.HashMap
 import java.util.NoSuchElementException
+import com.github.ikuo.garapon4s.{
+  UnknownUser, WrongPassword, MalformedResponse}
 
 class WebAuthResult(
   val ipAddress: String,
@@ -14,13 +16,9 @@ class WebAuthResult(
 }
 
 object WebAuthResult {
-  class WrongPassword(string: String) extends RuntimeException(string)
-  class UnknownUser(string: String) extends RuntimeException(string)
   class UnknownRegistKey(string: String) extends RuntimeException(string)
   class UnknownIpAddress(string: String) extends RuntimeException(string)
   class UnknownDeveloper(string: String) extends RuntimeException(string)
-  class MalformedResponse(string: String, throwable: Throwable = null)
-    extends RuntimeException(string, throwable)
 
   def parse(string: String): WebAuthResult = {
     if (string == null) throw new MalformedResponse(string)
@@ -37,11 +35,11 @@ object WebAuthResult {
     if (code != 1) throw new MalformedResponse(string)
 
     message match {
-      case "wrong	password"     => throw new WrongPassword(message)
+      case "wrong password"     => throw new WrongPassword(message)
       case "unknown user"       => throw new UnknownUser(message)
       case "unknown registkey"  => throw new UnknownRegistKey(message)
       case "unknown ip address" => throw new UnknownRegistKey(message)
-      case "unknown	developer"  => throw new UnknownDeveloper(message)
+      case "unknown developer"  => throw new UnknownDeveloper(message)
       case _                    => throw new MalformedResponse(string)
     }
   }
