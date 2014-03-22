@@ -23,7 +23,7 @@ class TvSessionSpec extends UnitSpec {
           (httpClient.post(_: URL, _: Option[RequestBody], _: Headers)).
             expects(new URL("http://192.168.0.2:80/gapi/v3/search?dev_id=devid1&gtvsession=session1"), *, *).
             returning(
-              MockResponse.ofJson(jsonFixture("search_result/0")))//TODO 1
+              MockResponse.ofJson(jsonFixture("search_result/1")))
 
           val result = session.search(key = "ニュース")
           result should not be (null)
@@ -56,6 +56,9 @@ class TvSessionSpec extends UnitSpec {
         val channels = session.getChannels
         channels should not be (null)
         channels.size should be (8)
+        val ch = channels(32736)
+        ch.name should not be (null)
+        ch.hashTag should be ("#nhk")
       }
     }
   }
