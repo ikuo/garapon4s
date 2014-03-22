@@ -1,6 +1,7 @@
 package com.github.ikuo.garapon4s.model
 
-import com.github.ikuo.garapon4s.{InvalidSession, ParameterError, MalformedResponse}
+import com.github.ikuo.garapon4s.{
+  InvalidSession, ParameterError, MalformedResponse, DbConnectionError}
 import FavoriteResult._
 
 class FavoriteResult(
@@ -26,5 +27,4 @@ class FavoriteResult(
 object FavoriteResult {
   val NA = -1
   class NoMp4Error extends RuntimeException
-  class DbConnectionError extends RuntimeException
 }

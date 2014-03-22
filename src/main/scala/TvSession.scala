@@ -20,6 +20,7 @@ class TvSession(
   val httpClientFactory: HttpClientFactory = HttpClientFactory({ new HttpClient })
 ) {
   private lazy val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+  private lazy val objectMapper = new ObjectMapper
   val baseUrl = s"http://${ip}:${portHttp}/gapi/v3/"
   val queryPrefix = s"?dev_id=${devId}&gtvsession=${gtvsession}"
 
@@ -89,7 +90,7 @@ class TvSession(
     val url = s"${baseUrl}auth${queryPrefix}"
     val body = Some(RequestBody(Map("type" -> "logout")))
     val response = httpClientFactory.create.post(new URL(url), body, Nil)
-    (new ObjectMapper).readValue(response.body.inputStream, classOf[AuthResult]).
+    objectMapper.readValue(response.body.inputStream, classOf[AuthResult]).
       validated(loginResult = false)
   }
 
@@ -97,11 +98,18 @@ class TvSession(
     val url = s"${baseUrl}favorite${queryPrefix}"
     val body = Some(RequestBody(Map("gtvid" -> gtvid, "rank" -> rank.toString)))
     val response = httpClientFactory.create.post(new URL(url), body, Nil)
-    (new ObjectMapper).readValue(response.body.inputStream, classOf[FavoriteResult]).
+    objectMapper.readValue(response.body.inputStream, classOf[FavoriteResult]).
       validate
   }
 
   def removeFavorite(gtvid: String) = addFavorite(gtvid, 0)
+
+  def getChannels = {
+    val url = s"${baseUrl}channel${queryPrefix}"
+    val response = httpClientFactory.create.get(new URL(url), Nil)
+    objectMapper.readValue(response.body.inputStream, classOf[ChannelResult]).
+      channels
+  }
 
   private def formatDate(date: Date) =
     dateFormat.synchronized { dateFormat.format(date) }

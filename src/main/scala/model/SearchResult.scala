@@ -2,8 +2,8 @@ package com.github.ikuo.garapon4s.model
 
 import java.io.InputStream
 import com.fasterxml.jackson.core.{JsonFactory, JsonParser, JsonToken}
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.ikuo.garapon4s.MalformedJsonResponse
+import com.github.ikuo.garapon4s.{PullParsing, MalformedJsonResponse}
+import JsonToken._
 
 class SearchResult(
   val status: Int,
@@ -13,13 +13,7 @@ class SearchResult(
 ) extends Validation {
 }
 
-object SearchResult {
-  import JsonToken._
-
-  private lazy val jsonFactory = new JsonFactory
-  private lazy val objectMapper = new ObjectMapper
-  private val NA = -1
-
+object SearchResult extends PullParsing {
   def parse(
     in: InputStream,
     resultListener: SearchResultListener = null
@@ -69,12 +63,6 @@ object SearchResult {
       else objectMapper.readValue(parser, classOf[Program])
   }
 
-  protected def unexpected(token: JsonToken, parser: JsonParser) =
-    throw new MalformedJsonResponse(s"Unexpected token ${token}", parser)
-
-  protected def unexpectedField(name: String, parser: JsonParser) =
-    throw new MalformedJsonResponse(s"Unexpected field name ${name}", parser)
-
   class BufferedListener extends SearchResultListener {
     protected var status: Int = NA
     protected var hit: Int = NA
@@ -85,19 +73,5 @@ object SearchResult {
     override def notifyVersion(value: String) { this.version = value }
     override def notifyPrograms(programs: Iterator[Program]) { this.programs = programs.toList }
     override def getResult: SearchResult = new SearchResult(status, hit, version, programs)
-  }
-
-  private def intFieldValue(parser: JsonParser): Int = {
-    val intValue = parser.nextIntValue(NA)
-    if (intValue != NA) return intValue
-
-    val value = parser.getText
-    if (value == null || value.length < 1) sys.error("Empty string for integer.")
-    else value.toInt
-  }
-
-  protected def acceptToken(token: JsonToken, parser: JsonParser) {
-    if (parser.isClosed || parser.nextToken != token)
-      throw new MalformedJsonResponse(token, parser)
   }
 }

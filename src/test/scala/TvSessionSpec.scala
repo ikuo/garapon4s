@@ -45,4 +45,18 @@ class TvSessionSpec extends UnitSpec {
       }
     }
   }
+
+  describe("#getChannels") {
+    it("returns channels") {
+      new Fixture {
+        (httpClient.get(_: URL, _: Headers)).
+          expects(new URL("http://192.168.0.2:80/gapi/v3/channel?dev_id=devid1&gtvsession=session1"), *).
+          returning(
+            MockResponse.ofJson(jsonFixture("channel_result/1")))
+        val channels = session.getChannels
+        channels should not be (null)
+        channels.size should be (8)
+      }
+    }
+  }
 }
