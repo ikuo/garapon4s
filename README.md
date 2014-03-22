@@ -1,5 +1,5 @@
 # Garapon4S
-A client library of GaraponTV API for scala. (work in progress)
+A client library of GaraponTV API for scala.
 
 # Usage example
 See `main()` method in `Garapon4S.scala`
@@ -35,4 +35,4 @@ It will show a gtvsession ID received from your Garapon TV device.
 See also `src/main/scala/Garapon4S.scala`.
 
 ## TODO
-- Support Play, and Thumbs API
+- API Document
