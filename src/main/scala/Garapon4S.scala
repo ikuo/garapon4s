@@ -10,7 +10,7 @@ object Garapon4S {
           config.get("default.md5password").toString
         )
       } else {
-        client.newSessionByIp(ip,
+        client.newSessionByIp(ip.toString,
           config.get("default.user").toString,
           config.get("default.md5password").toString
         )
@@ -22,7 +22,7 @@ object Garapon4S {
     println("hits=" + results.hit)
   }
 
-  private lazy val ip = config.get("default.ip").toString
+  private lazy val ip = config.get("default.ip")
 
   private lazy val config: java.util.Properties = {
     val props = new java.util.Properties()
