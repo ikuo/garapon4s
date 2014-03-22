@@ -60,7 +60,7 @@ class TvSession(
     video: String = null,
     resultListener: SearchResultListener = null
   ): SearchResult = {
-    val url = s"${baseUrl}/search${queryPrefix}"
+    val url = s"${baseUrl}search${queryPrefix}"
 
     val map = new StringMap()
     map("n") = n
@@ -86,7 +86,7 @@ class TvSession(
   }
 
   def logout {
-    val url = s"${baseUrl}/auth${queryPrefix}"
+    val url = s"${baseUrl}auth${queryPrefix}"
     val body = Some(RequestBody(Map("type" -> "logout")))
     val response = httpClientFactory.create.post(new URL(url), body, Nil)
     (new ObjectMapper).readValue(response.body.inputStream, classOf[AuthResult]).
@@ -94,7 +94,7 @@ class TvSession(
   }
 
   def addFavorite(gtvid: String, rank: Int) {
-    val url = s"${baseUrl}/favorite${queryPrefix}"
+    val url = s"${baseUrl}favorite${queryPrefix}"
     val response = httpClientFactory.create.get(new URL(url))
     (new ObjectMapper).readValue(response.body.inputStream, classOf[FavoriteResult]).
       validate

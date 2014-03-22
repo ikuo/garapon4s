@@ -1,6 +1,6 @@
 package com.github.ikuo.garapon4s.model
 
-import com.github.ikuo.garapon4s.{InvalidSession, ParameterError}
+import com.github.ikuo.garapon4s.{InvalidSession, ParameterError, MalformedResponse}
 import FavoriteResult._
 
 class FavoriteResult(
