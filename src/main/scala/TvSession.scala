@@ -135,6 +135,9 @@ class TvSession(
     else s"http://${ip}:${portTs}${path}"
   }
 
+  def webViewerUrl(gtvid: String) =
+    s"http://${ip}:${portHttp}/main.garapon#/viewer/player.garapon?gtvid=${gtvid}"
+
   def thumbnailUrl(gtvid: String) = {
     val path = s"/thumbs/${gtvid}"
     if (isPrivateIp) s"http://${ip}${path}"

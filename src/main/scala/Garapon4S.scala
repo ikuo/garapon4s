@@ -19,6 +19,10 @@ object Garapon4S {
     println("gtvsession=" + session.gtvsession)
     val results = session.search(key = "ニュース")
     println("search hit=" + results.hit)
+    val p1 = results.programs(0)
+    println(session.rtmpUrl(p1.gtvId))
+    println(session.streamingUrl(p1.gtvId))
+    println(session.webViewerUrl(p1.gtvId))
 
     session.logout
   }
