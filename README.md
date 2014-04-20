@@ -1,5 +1,6 @@
 # Garapon4S
 A client library of GaraponTV API for scala.
+Designed for Android App.
 
 # Usage example
 See `main()` method in `Garapon4S.scala`
