@@ -5,18 +5,7 @@ Designed for Android App.
 # Usage example
 See `main()` method in `Garapon4S.scala`
 
-## 1. Run test
-Install scalamock 3.1-SNAPSHOT into your local repository as follows:
-
-```
-$ git clone git@github.com:paulbutcher/ScalaMock.git
-$ cd ScalaMock
-$ sbt
-ScalaMock:master:3.1-SNAPSHOT> publish-local
-```
-
-Then run `test` task in sbt console:
-
+## 1. Test
 ```
 $ sbt
 > test
@@ -36,4 +25,4 @@ It will show a gtvsession ID received from your Garapon TV device.
 See also `src/main/scala/Garapon4S.scala`.
 
 ## TODO
-- API Document
+- API Documentation
