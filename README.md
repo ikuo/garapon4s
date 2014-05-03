@@ -1,4 +1,4 @@
-# Garapon4S
+# Garapon4S [![Build Status](https://travis-ci.org/ikuo/garapon4s.svg?branch=master)](https://travis-ci.org/ikuo/garapon4s)
 A client library of GaraponTV API for scala.
 Designed for Android App.
 
