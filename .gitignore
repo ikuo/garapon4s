@@ -1,4 +1,5 @@
 *.iml
 target/
+/memo.md
 /.idea
 /garapon4s.properties

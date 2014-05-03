@@ -28,5 +28,4 @@ libraryDependencies ++= Seq(
   "org.scalatest" % "scalatest_2.10" % "2.0" % "test" withSources() withJavadoc(),
   "org.scalacheck" % "scalacheck_2.10" % "1.11.3" % "test" withSources() withJavadoc(),
   "org.scalamock" %% "scalamock-scalatest-support" % "3.1.RC1" % "test"
-  //"org.mockito" % "mockito-core" % "1.9.5" % "test",
 )
