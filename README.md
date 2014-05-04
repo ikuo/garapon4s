@@ -16,7 +16,7 @@ println("sessionID = " + session.gtvsession)
 
 // 2) Search programs by keyword
 val results = session.search(key = "News")
-println("search hit=" + results.hit)
+println("search hit = " + results.hit)
 
 // 3) Get web viewer URL for the first program in the search result
 val p1 = results.programs(0).gtvId
@@ -76,9 +76,7 @@ $ sbt
 ### b. Set up manually
 Publish Garapon4S by `sbt publish-local` and add the following entry to build.sbt:
 ```
-libraryDependencies ++= Seq(
-  "com.github.ikuo" % "garapon4s_2.10" % "0.0.2"
-)
+libraryDependencies += "com.github.ikuo" % "garapon4s_2.10" % "0.0.2"
 ```
 
 Keep Jackson related classes and methods in proguard by adding the following in progurad setting:
@@ -104,7 +102,8 @@ Add the following `uses-permission`s in AndroidManifest.xml:
 ## License
 MIT License
 
-## Dependencies
+## Credits
+Garapon4S is using the following works:
 - [Bee Client](http://www.bigbeeconsultants.co.uk/bee-client) - MIT License
 - [SLF4J](http://www.slf4j.org/) - MIT License
 - [Jackson JSON Processor](http://wiki.fasterxml.com/JacksonHome) - Apache License 2.0
