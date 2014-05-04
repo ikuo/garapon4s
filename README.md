@@ -50,7 +50,7 @@ The following steps are tested under [sbt android-plugin](https://github.com/jbe
 ### a. Set up using project template
 Publish Garapon4S by `sbt publish-local` and setup [giter8](https://github.com/n8han/giter8).
 
-Generate project using the template of
+Generate a project using the template of
 [garapo4s_client](https://github.com/ikuo/android-app.g8/tree/garapon4s_client)
 as follows:
 ```
@@ -90,7 +90,8 @@ Keep Jackson related classes and methods in proguard by adding the following in 
 ```
 
 Add the following `uses-permission`s in AndroidManifest.xml:
-```
+
+```xml
 <manifest ...>
   ...
   <uses-permission android:name="android.permission.INTERNET" />
@@ -98,6 +99,9 @@ Add the following `uses-permission`s in AndroidManifest.xml:
   ...
 </manifest>
 ```
+
+## Projects using Garapon4S
+- [Garaponoid](https://github.com/ikuo/garaponoid) (work in progress)
 
 ## License
 Apache License 2.0
