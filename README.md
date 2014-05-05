@@ -83,7 +83,7 @@ $ sbt
 ### b. Set up manually
 Publish Garapon4S by `sbt publish-local` and add the following entry to build.sbt:
 ```
-libraryDependencies += "com.github.ikuo" % "garapon4s_2.10" % "0.0.2"
+libraryDependencies += "com.github.ikuo" % "garapon4s_2.10" % "0.1.0-SNAPSHOT"
 ```
 
 Keep Jackson related classes and methods in proguard by adding the following in progurad setting:
