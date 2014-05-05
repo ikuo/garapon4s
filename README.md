@@ -3,7 +3,27 @@ A client library of Garapon TV API for scala.
 Designed for Android App (but independent of Android SDK).
 Garapon TV API Version 3 is supported.
 
-# Usage example
+# Usage
+
+## Setup
+Add the following repositories to your build configuration:
+- http://oss.sonatype.org/content/repositories/releases Sonatype Releases
+- http://repo.bigbeeconsultants.co.uk/repo Bee Consultants
+
+and add dependency to a pom entry ("com.github.ikuo", "garapon4s_2.10", "0.2.0").
+
+Example of sbt (build.sbt):
+
+```sbt
+resolvers ++= Seq(
+  "Sonatype Releases" at "http://oss.sonatype.org/content/repositories/releases",
+  "Big Bee Consultants" at "http://repo.bigbeeconsultants.co.uk/repo"
+)
+
+libraryDependencies += "com.github.ikuo" % "garapon4s_2.10" % "0.2.0"
+```
+
+## Code example
 
 ```scala
 import com.github.ikuo.garapon4s._
@@ -44,7 +64,7 @@ It will show a gtvsession ID received from your Garapon TV device.
 
 See also `src/main/scala/Garapon4S.scala`.
 
-## Generate scaladoc
+## Generate Scaladoc
 ```
 $ sbt
 > doc
@@ -52,12 +72,10 @@ $ sbt
 ```
 
 ## Use in Android App
-The following steps are tested under [sbt android-plugin](https://github.com/jberkel/android-plugin) based environment.
+The following descriptions are tested under [sbt android-plugin](https://github.com/jberkel/android-plugin) based environment.
 
 ### a. Set up using project template
-Publish Garapon4S by `sbt publish-local` and setup [giter8](https://github.com/n8han/giter8).
-
-Generate a project using the template of
+Install [giter8](https://github.com/n8han/giter8) and generate a project using the template of
 [garapo4s_client](https://github.com/ikuo/android-app.g8/tree/garapon4s_client)
 as follows:
 ```
@@ -81,11 +99,6 @@ $ sbt
 ```
 
 ### b. Set up manually
-Publish Garapon4S by `sbt publish-local` and add the following entry to build.sbt:
-```
-libraryDependencies += "com.github.ikuo" % "garapon4s_2.10" % "0.1.0-SNAPSHOT"
-```
-
 Keep Jackson related classes and methods in proguard by adding the following in progurad setting:
 ```
 -keep class com.fasterxml.jackson.databind.** { *; }
