@@ -1,7 +1,9 @@
 package com.github.ikuo.garapon4s.model
 
 import com.github.ikuo.garapon4s.{
-  ParameterError, MalformedResponse, UnknownUser, WrongPassword}
+  ParameterError, MalformedResponse, UnknownUser, WrongPassword,
+  LoginError, LogoutError, AuthSyncError
+}
 import AuthResult._
 
 /** Result of /login API. */
@@ -51,8 +53,4 @@ class AuthResult(
 
 object AuthResult {
   val NA = -1
-  class LoginError extends RuntimeException("Error status or empty parameter.")
-  class LogoutError extends RuntimeException("Error status or empty parameter.")
-  class AuthSyncError
-    extends RuntimeException("Make sure the internet connection and wait about 5 minutes.")
 }

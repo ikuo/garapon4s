@@ -44,6 +44,13 @@ It will show a gtvsession ID received from your Garapon TV device.
 
 See also `src/main/scala/Garapon4S.scala`.
 
+## Generate scaladoc
+```
+$ sbt
+> doc
+[info] Generating Scala API documentation for main sources to .../target/scala-2.10/api...
+```
+
 ## Use in Android App
 The following steps are tested under [sbt android-plugin](https://github.com/jberkel/android-plugin) based environment.
 
