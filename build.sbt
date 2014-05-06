@@ -2,7 +2,7 @@ name := "Garapon4S"
 
 organization := "com.github.ikuo"
 
-version := "0.2.0"
+version := "0.2.1-SNAPSHOT"
 
 scalaVersion := "2.10.3"
 
