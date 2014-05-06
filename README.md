@@ -73,7 +73,7 @@ $ sbt
 ```
 
 ### b. Set up manually
-Keep Jackson related classes and methods in proguard by adding the following in progurad setting:
+Keep Jackson related classes and methods in proguard settings:
 ```
 -keep class com.fasterxml.jackson.databind.** { *; }
 -keepattributes *Annotation*,EnclosingMethod
