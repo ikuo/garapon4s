@@ -5,7 +5,6 @@ import java.net.URL
 import java.text.SimpleDateFormat
 import uk.co.bigbeeconsultants.http.HttpClient
 import uk.co.bigbeeconsultants.http.request.RequestBody
-import uk.co.bigbeeconsultants.http.header.MediaType
 import com.fasterxml.jackson.databind.ObjectMapper
 import model._
 import TvSession._
@@ -92,7 +91,7 @@ class TvSession(
     map("sort") = Option(sort).map(_.code)
     map("video") = video
 
-    val body = Some(RequestBody(map.toMap, MediaType.APPLICATION_OCTET_STREAM))
+    val body = Some(RequestBody(map.toMap))
     val response = httpClientFactory.create.post(new URL(url), body, Nil)
 
     SearchResult.parse(response.body.inputStream, resultListener)
