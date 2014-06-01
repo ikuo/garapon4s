@@ -1,6 +1,8 @@
 package com.github.ikuo.garapon4s.model
 
 import Program._
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class Program(
   var gtvId: String,
@@ -31,8 +33,11 @@ class Program(
   def setTs(v: Int) { this.ts = v }
   def setCaption_hit(v: Int) { this.captionHit = v }
   def setCaption(v: Array[Caption]) { this.caption = v }
+
+  def parsedStartDate: Date = dateFormat.parse(startDate)
 }
 
 object Program {
   val NA = -1
+  lazy val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 }

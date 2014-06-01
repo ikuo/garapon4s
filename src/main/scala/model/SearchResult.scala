@@ -20,6 +20,7 @@ object SearchResult extends PullParsing {
   ): SearchResult = {
     val parser = jsonFactory.createParser(in)
     val listener = Option(resultListener).getOrElse(new BufferedListener)
+    listener.notifyStartParsing
 
     acceptToken(START_OBJECT, parser)
     while(!parser.isClosed) {

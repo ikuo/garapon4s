@@ -20,6 +20,7 @@ object Garapon4S {
 
     val results = session.search(key = "News")
     println("search hit=" + results.hit)
+    println(session.thumbnailUrl(results.programs(0).gtvId))
     results.programs.foreach { p => println(p.title) }
 
     session.logout
