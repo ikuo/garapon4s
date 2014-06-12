@@ -6,13 +6,7 @@ Garapon TV API Version 3 is supported.
 ## Usage
 
 ### Setup
-Add the following repositories to your build configuration:
-- http://oss.sonatype.org/content/repositories/snapshots Sonatype Snapshots
-- http://repo.bigbeeconsultants.co.uk/repo Bee Consultants
-
-and add dependency to a pom entry ("com.github.ikuo", "garapon4s_2.10", "0.2.1-SNAPSHOT").
-
-Example of sbt (build.sbt):
+sbt:
 
 ```sbt
 resolvers ++= Seq(
