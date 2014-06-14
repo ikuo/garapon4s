@@ -119,7 +119,7 @@ $ sbt
 - API Documentation
 
 ## Projects using Garapon4S
-- [Garaponoid](https://github.com/ikuo/garaponoid) (work in progress)
+- [Garaponoid](https://github.com/ikuo/garaponoid)
 
 ## License
 Apache License 2.0
