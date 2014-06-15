@@ -5,8 +5,7 @@ Garapon TV API Version 3 is supported.
 
 ## Usage
 
-### Setup
-sbt:
+Setup dependencies in sbt:
 
 ```sbt
 resolvers ++= Seq(
@@ -17,7 +16,7 @@ resolvers ++= Seq(
 libraryDependencies += "com.github.ikuo" % "garapon4s_2.10" % "0.2.1-SNAPSHOT"
 ```
 
-### Code example
+Code example:
 
 ```scala
 import com.github.ikuo.garapon4s._
@@ -39,10 +38,38 @@ val p1 = results.programs(0).gtvId
 
 See also `main()` method in `Garapon4S.scala`
 
-## Use in Android App
+## Using in Android App
+
+This section describes a) manual setup of proguard and android manifest,
+and b) generating a project by a giter8 template.
+
+See also [Garaponoid](https://github.com/ikuo/garaponoid) that use Garapon4S in Android.
+
+### a) Set up manually
+Keep Jackson related classes and methods in proguard settings:
+```
+-keep class com.fasterxml.jackson.databind.** { *; }
+-keepattributes *Annotation*,EnclosingMethod
+-keep public class com.github.ikuo.garapon4s.model.** {
+  public void set*(***);
+  public *** get*();
+}
+```
+
+Add the following `uses-permission`s in AndroidManifest.xml:
+
+```xml
+<manifest ...>
+  ...
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  ...
+</manifest>
+```
+
+### b) Set up using project template
 The following descriptions are tested under [sbt android-plugin](https://github.com/jberkel/android-plugin) based environment.
 
-### a. Set up using project template
 Install [giter8](https://github.com/n8han/giter8) and generate a project using the template of
 [garapo4s_client](https://github.com/ikuo/android-app.g8/tree/garapon4s_client)
 as follows:
@@ -66,36 +93,14 @@ $ sbt
 > start
 ```
 
-### b. Set up manually
-Keep Jackson related classes and methods in proguard settings:
-```
--keep class com.fasterxml.jackson.databind.** { *; }
--keepattributes *Annotation*,EnclosingMethod
--keep public class com.github.ikuo.garapon4s.model.** {
-  public void set*(***);
-  public *** get*();
-}
-```
-
-Add the following `uses-permission`s in AndroidManifest.xml:
-
-```xml
-<manifest ...>
-  ...
-  <uses-permission android:name="android.permission.INTERNET" />
-  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-  ...
-</manifest>
-```
-
 ## Development
-### Run specs
+### Running Specs
 ```
 $ sbt
 > test
 ```
 
-### Run with HTTP requests
+### Running Specs with HTTP Requests
 Copy garapon4s.properties.sample to garapon4s.properties, and edit entries to match your environments.
 
 ```
@@ -108,18 +113,12 @@ It will show a gtvsession ID received from your Garapon TV device.
 
 See also `src/main/scala/Garapon4S.scala`.
 
-### Generate Scaladoc
+### Generating Scaladoc
 ```
 $ sbt
 > doc
 [info] Generating Scala API documentation for main sources to .../target/scala-2.10/api...
 ```
-
-### TODO
-- API Documentation
-
-## Projects using Garapon4S
-- [Garaponoid](https://github.com/ikuo/garaponoid)
 
 ## License
 Apache License 2.0
