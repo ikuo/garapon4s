@@ -9,11 +9,11 @@ Setup dependencies in sbt:
 
 ```sbt
 resolvers ++= Seq(
-  "Sonatype Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots",
+  "Sonatype Releases" at "http://oss.sonatype.org/content/repositories/releases",
   "Big Bee Consultants" at "http://repo.bigbeeconsultants.co.uk/repo"
 )
 
-libraryDependencies += "com.github.ikuo" % "garapon4s_2.10" % "0.2.1-SNAPSHOT"
+libraryDependencies += "com.github.ikuo" % "garapon4s_2.10" % "0.2.1"
 ```
 
 Code example:
