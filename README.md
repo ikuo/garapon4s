@@ -13,7 +13,7 @@ resolvers ++= Seq(
   "Big Bee Consultants" at "http://repo.bigbeeconsultants.co.uk/repo"
 )
 
-libraryDependencies += "com.github.ikuo" % "garapon4s_2.10" % "0.2.1"
+libraryDependencies += "com.github.ikuo" % "garapon4s_2.10" % "0.2.2"
 ```
 
 Code example:
