@@ -2,7 +2,7 @@ name := "Garapon4S"
 
 organization := "com.github.ikuo"
 
-version := "0.2.1-SNAPSHOT"
+version := "0.2.1"
 
 scalaVersion := "2.10.3"
 
@@ -11,10 +11,9 @@ initialCommands := "import com.github.ikuo.garapon4s._"
 seq(lsSettings :_*)
 
 libraryDependencies ++= Seq(
-    "uk.co.bigbeeconsultants" %% "bee-client" % "0.21.+",
-    "org.slf4j" % "slf4j-api" % "1.7.+",
-    "com.fasterxml.jackson.core" % "jackson-core" % "2.3.0",
-    "com.fasterxml.jackson.core" % "jackson-databind" % "2.3.0"
+  "uk.co.bigbeeconsultants" %% "bee-client" % "0.21.+",
+  "com.fasterxml.jackson.core" % "jackson-core" % "2.3.0",
+  "com.fasterxml.jackson.core" % "jackson-databind" % "2.3.0"
 )
 
 resolvers ++= Seq(

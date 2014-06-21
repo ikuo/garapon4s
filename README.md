@@ -127,4 +127,3 @@ Apache License 2.0
 Garapon4S is using the following works:
 - [Jackson JSON Processor](http://wiki.fasterxml.com/JacksonHome) - Apache License 2.0
 - [Bee Client](http://www.bigbeeconsultants.co.uk/bee-client) - MIT License
-- [SLF4J](http://www.slf4j.org/) - MIT License
