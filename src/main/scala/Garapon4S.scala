@@ -18,7 +18,7 @@ object Garapon4S {
 
     println("gtvsession=" + session.gtvsession)
 
-    val results = session.search(key = "News")
+    val results = session.search(key = "News").get
     println("search hit=" + results.hit)
     println(session.thumbnailUrl(results.programs(0).gtvId))
     results.programs.foreach { p => println(p.title) }

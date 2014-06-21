@@ -7,7 +7,7 @@ class SearchResultSpec extends UnitSpec {
     describe("without listener") {
       it("should return a SearchResult with programs") {
         new JsonFixture {
-          val result = SearchResult.parse(jsonFixtureAsInputStream("search_result/1"))
+          val result = SearchResult.parse(jsonFixtureAsInputStream("search_result/1")).get
           result should not be (null)
           result shouldBe a [SearchResult]
           result.status should be (1)

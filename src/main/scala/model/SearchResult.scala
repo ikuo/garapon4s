@@ -17,7 +17,7 @@ object SearchResult extends PullParsing {
   def parse(
     in: InputStream,
     resultListener: SearchResultListener = null
-  ): SearchResult = {
+  ): Option[SearchResult] = {
     val parser = jsonFactory.createParser(in)
     val listener = Option(resultListener).getOrElse(new BufferedListener)
     listener.notifyStartParsing
@@ -66,13 +66,13 @@ object SearchResult extends PullParsing {
 
   class BufferedListener extends SearchResultListener {
     protected var status: Int = NA
-    protected var hit: Int = NA
     protected var version: String = null
+    protected var hit: Int = NA
     protected var programs: List[Program] = null
+    override def notifyVersion(value: String) { this.version = value }
     override def notifyStatus(value: Int) { this.status = value }
     override def notifyHit(value: Int) { this.hit = value }
-    override def notifyVersion(value: String) { this.version = value }
     override def notifyPrograms(programs: Iterator[Program]) { this.programs = programs.toList }
-    override def getResult: SearchResult = new SearchResult(status, hit, version, programs)
+    override def getResult = Some(new SearchResult(status, hit, version, programs))
   }
 }

@@ -71,7 +71,7 @@ class TvSession(
     sort: SortOrder = null,
     video: String = null,
     resultListener: SearchResultListener = null
-  ): SearchResult = {
+  ): Option[SearchResult] = {
     val url = s"${baseUrl}search${queryPrefix}"
 
     val map = new StringMap()
