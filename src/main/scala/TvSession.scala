@@ -17,23 +17,14 @@ class TvSession(
   val gtvsession: String,
   val devId: String,
   val httpClientFactory: HttpClientFactory = HttpClientFactory({ new HttpClient })
-) {
+) extends IpCheck
+{
   val baseUrl = s"http://${ip}:${portHttp}/gapi/v3/"
   val queryPrefix = s"?dev_id=${devId}&gtvsession=${gtvsession}"
 
   private lazy val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
   private lazy val objectMapper = new ObjectMapper
-  private lazy val isPrivateIp = {
-    ip.split('.') match {
-      case Array("192", "168", _, _) => true  // class C
-      case Array("10", _, _, _) => true       // class A
-      case Array("172", a, _, _) => {         // class B
-        val i = a.toInt
-        (i >= 16 && i <= 31)
-      }
-      case _ => false
-    }
-  }
+  private lazy val isPrivateIp = isPrivate(ip)
 
   /**
    * Returns search result from the TV device.

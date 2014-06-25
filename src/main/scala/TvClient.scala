@@ -19,7 +19,8 @@ class TvClient(
     HttpClientFactory({
       new HttpClient(Config(connectTimeout = 5000, readTimeout = 15000))
     })
-) {
+) extends IpCheck
+{
   val endpointUrl = new URL("http://garagw.garapon.info/getgtvaddress")
   private lazy val objectMapper = new ObjectMapper
 
@@ -101,7 +102,9 @@ class TvClient(
     val ip = candidates.find(InetAddress.getByName(_).isReachable(timeoutMs))
     if (ip.isEmpty) throw new UnreachableIp(candidates)
 
-    newSessionByIp(ip.get.toString, user, md5Password, result.portHttp, result.portTs)
+    val port = if (isPrivate(ip.get.toString)) 80 else result.portHttp
+
+    newSessionByIp(ip.get.toString, user, md5Password, port, result.portTs)
   }
 
   /**
