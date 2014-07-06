@@ -3,7 +3,7 @@ package com.github.ikuo.garapon4s
 import java.net.URL
 import java.security.MessageDigest
 import java.math.BigInteger
-import java.net.InetAddress
+import java.net.{InetAddress, SocketException, UnknownHostException}
 import uk.co.bigbeeconsultants.http.{HttpClient, Config}
 import uk.co.bigbeeconsultants.http.request.RequestBody
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -72,6 +72,7 @@ class TvClient(
    * @throws ParameterError See [[ParameterError]]
    * @throws AuthSyncError See [[AuthSyncError]]
    * @throws LoginError See [[LoginError]]
+   * @throws ConnectionFailure See [[ConnectionFailure]]
    */
   @throws(classOf[UnknownUser])
   @throws(classOf[WrongPassword])
@@ -84,7 +85,7 @@ class TvClient(
     md5Password: String,
     timeoutMs: Int = 2000
   ): TvSession = {
-    val response =
+    val response = try{
       httpClientFactory.create.post(
         endpointUrl,
         Some(RequestBody(Map(
@@ -93,6 +94,10 @@ class TvClient(
           "dev_id" -> devId
         )))
       )
+    } catch {
+      case err: SocketException => throw new ConnectionFailure(endpointUrl, err)
+      case err: UnknownHostException => throw new ConnectionFailure(endpointUrl, err)
+    }
 
     val result = WebAuthResult.parse(response.body.toString)
 
