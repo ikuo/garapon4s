@@ -83,7 +83,7 @@ class TvClient(
   def newSession(
     user: String,
     md5Password: String,
-    timeoutMs: Int = 2000
+    timeoutMs: Int = 10000  // 10 sec.
   ): TvSession = {
     val response = try{
       httpClientFactory.create.post(
