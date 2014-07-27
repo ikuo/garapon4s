@@ -22,6 +22,7 @@ class TvClient(
 ) extends IpCheck
 {
   val endpointUrl = new URL("http://garagw.garapon.info/getgtvaddress")
+  val portsForPrivateIp = (80, 1935)  // (HTTP, TS)
   private lazy val objectMapper = new ObjectMapper
 
   /**
@@ -100,16 +101,11 @@ class TvClient(
     }
 
     val result = WebAuthResult.parse(response.body.toString)
+    val ports =
+      if (result.ipAddress == result.privateIpAddress) portsForPrivateIp
+      else (result.portHttp, result.portTs)
 
-    val candidates =
-      List(result.ipAddress, result.privateIpAddress, result.globalIpAddress)
-
-    val ip = candidates.find(InetAddress.getByName(_).isReachable(timeoutMs))
-    if (ip.isEmpty) throw new UnreachableIp(candidates)
-
-    val port = if (isPrivate(ip.get.toString)) 80 else result.portHttp
-
-    newSessionByIp(ip.get.toString, user, md5Password, port, result.portTs)
+    newSessionByIp(result.ipAddress, user, md5Password, ports._1, ports._2)
   }
 
   /**
