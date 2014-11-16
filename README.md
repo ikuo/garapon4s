@@ -120,7 +120,7 @@ $ sbt
 [info] Generating Scala API documentation for main sources to .../target/scala-2.10/api...
 ```
 
-## Releasing
+## Publishing
 
 Generate a GPG key or import existing key as follows:
 
@@ -130,6 +130,8 @@ $ gpg --allow-secret-key-import --import <GPG-key-file>
 $ sbt
 > publish-local
 ```
+
+To publish to maven central, put credential to `~/.sbt/sonatype.sbt` as described [here](http://www.scala-sbt.org/0.13/docs/Using-Sonatype.html).
 
 ## License
 Apache License 2.0
