@@ -17,9 +17,10 @@ class Program(
   var bcTags: String,
   var ts: Int,
   var captionHit: Int,
-  var caption: Array[Caption]
+  var caption: Array[Caption],
+  var audioCh: String
 ) {
-  def this() = { this(null, null, null, NA, null, null, null, NA, null, null, NA, NA, null) }
+  def this() = { this(null, null, null, NA, null, null, null, NA, null, null, NA, NA, null, null) }
   def setGtvid(v: String) { this.gtvId = v }
   def setStartdate(v: String) { this.startDate = v }
   def setDuration(v: String) { this.duration = v }
@@ -33,6 +34,7 @@ class Program(
   def setTs(v: Int) { this.ts = v }
   def setCaption_hit(v: Int) { this.captionHit = v }
   def setCaption(v: Array[Caption]) { this.caption = v }
+  def setAudio_ch(v: String) { this.audioCh = v }
 
   def parsedStartDate: Date = dateFormat.parse(startDate)
 }
