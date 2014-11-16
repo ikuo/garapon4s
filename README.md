@@ -120,6 +120,17 @@ $ sbt
 [info] Generating Scala API documentation for main sources to .../target/scala-2.10/api...
 ```
 
+## Releasing
+
+Generate a GPG key or import existing key as follows:
+
+```
+$ gpg --list-keys
+$ gpg --allow-secret-key-import --import <GPG-key-file>
+$ sbt
+> publish-local
+```
+
 ## License
 Apache License 2.0
 
