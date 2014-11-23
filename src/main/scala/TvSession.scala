@@ -131,7 +131,7 @@ class TvSession(
   def thumbnailUrl(gtvid: String) = {
     val path = s"/thumbs/${gtvid}"
     if (isPrivateIp) s"http://${ip}${path}"
-    else s"http://${ip}:${portTs}${path}"
+    else s"http://${ip}:${portHttp}${path}"
   }
 
   private def formatDate(date: Date) =
