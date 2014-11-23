@@ -132,6 +132,7 @@ $ sbt
 ```
 
 To publish to maven central, put credential to `~/.sbt/sonatype.sbt` as described [here](http://www.scala-sbt.org/0.13/docs/Using-Sonatype.html).
+Then run `publish-signed` task on sbt.
 
 ## License
 Apache License 2.0
