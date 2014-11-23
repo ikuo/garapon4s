@@ -122,7 +122,7 @@ class TvSession(
   def streamingUrl(gtvid: String) = {
     val path = s"/cgi-bin/play/m3u8.cgi?${gtvid}-${gtvsession}"
     if (isPrivateIp) s"http://${ip}${path}"
-    else s"http://${ip}:${portTs}${path}"
+    else s"http://${ip}:${portHttp}${path}"
   }
 
   def webViewerUrl(gtvid: String) =
