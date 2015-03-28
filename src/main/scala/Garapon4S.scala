@@ -12,7 +12,8 @@ object Garapon4S {
       } else {
         client.newSessionByIp(ip.toString,
           config.get("default.user").toString,
-          config.get("default.md5password").toString
+          config.get("default.md5password").toString,
+          config.get("default.port").toString.toInt
         )
       }
 
