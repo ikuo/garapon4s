@@ -37,7 +37,7 @@ object SearchResult extends PullParsing {
                 "Program iterator is not completely consumed during the call to notifyPrograms()")
             }
           }
-          case name => unexpectedField(name, parser)
+          case name => parser.nextValue() // ignore
         }
         case END_OBJECT | null => ()
         case token => unexpected(token, parser)
