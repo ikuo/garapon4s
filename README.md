@@ -103,6 +103,12 @@ $ sbt
 ### Running Specs with HTTP Requests
 Copy garapon4s.properties.sample to garapon4s.properties, and edit entries to match your environments.
 
+Use md5sum command to make value of default.md5password property:
+
+```
+echo -n "your-password" | md5sum
+```
+
 ```
 $ sbt
 > run
